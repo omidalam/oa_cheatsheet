@@ -1,6 +1,6 @@
 Cheat sheet for accessing and manipulation .cooler files.
 
-_What is a .mcool?_
+__What is a .mcool?__
 
 mcool files can store several cooler files with different resolutions. You can list the ".cool" files inside a ".mcool" file in python like this:
 
