@@ -1,0 +1,2 @@
+docker exec higlass-container python higlass-server/manage.py   ingest_tileset   --filename /tmp/K562-Control_hg38.mcool   --datatype matrix --filetype cooler --project-name HeatShock --name "K562-Control(hg38)" --coordSystem hg38
+docker exec higlass-container python higlass-server/manage.py   ingest_tileset   --filename /tmp/K562-HS_hg38.mcool   --datatype matrix --filetype cooler --project-name HeatShock --name "K562-HeatShock(hg38)" --coordSystem hg38
