@@ -26,6 +26,20 @@ docker run --detach \
            --name higlass-container \
          gehlenborglab/higlass
 
+
+## Adding bedfiles.
+1. You need to convert them using clodius. I would login to the higlass docker container and use the installed clodius on that. Had no success installing it from pip.
+
+> clodius aggregate bedfile -assembly hg19 sample.bed
+
+2. copy the clodius output file (.beddb) to higlass tmp folder (it would be ~/hg-tmp/, if you followed the steps above)
+3. add to higlass.
+
+> docker exec higlass-container python higlass-server/manage.py ingest_tileset \
+       --filetype beddb --datatype bedlike \
+       --coordSystem hg19 --filename /tmp/sample.bed.beddb --project-name alaki
+
+
 ## Adding mcool files
 
 ".cool" is a filesystem to store HiC data developed as part of cooler package. ".mcool" files can store HiC datasets in different zoom levels. Here is how to add them to HiGlass.
@@ -33,4 +47,6 @@ docker run --detach \
 > docker exec higlass-container python higlass-server/manage.py   ingest_tileset   --filename /tmp/K562-Control_hg38.mcool   --datatype matrix --filetype cooler --project-name HeatShock --name "K562-Control(hg38)" --coordSystem hg38
 
 > docker exec higlass-container python higlass-server/manage.py   ingest_tileset   --filename /tmp/K562-HS_hg38.mcool   --datatype matrix --filetype cooler --project-name HeatShock --name "K562-HeatShock(hg38)" --coordSystem hg38
+
+
 
