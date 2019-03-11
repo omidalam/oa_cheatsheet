@@ -30,6 +30,9 @@ docker run --detach \
 ## Adding bedfiles.
 1. You need to convert them using clodius. I would login to the higlass docker container and use the installed clodius on that. Had no success installing it from pip.
 
+Loging to higlass-container docker
+> docker exec -it higlass-container /bin/bash
+
 > clodius aggregate bedfile -assembly hg19 sample.bed
 
 2. copy the clodius output file (.beddb) to higlass tmp folder (it would be ~/hg-tmp/, if you followed the steps above)
@@ -48,5 +51,32 @@ docker run --detach \
 
 > docker exec higlass-container python higlass-server/manage.py   ingest_tileset   --filename /tmp/K562-HS_hg38.mcool   --datatype matrix --filetype cooler --project-name HeatShock --name "K562-HeatShock(hg38)" --coordSystem hg38
 
+## Adding bedgraph files
+
+clodius aggregate bedgraph          \
+    /tmp/K562_hg38_ins_score_window100KB.bedgraph    \
+    --output-file /tmp/K562_hg38_ins_score_window100KB.hitile \
+    --chromosome-col 1              \
+    --from-pos-col 2                \
+    --to-pos-col 3                  \
+    --value-col 4                   \
+    --assembly hg38               \
+    --nan-value NA                  
 
 
+docker exec higlass-container python \
+        higlass-server/manage.py ingest_tileset \
+        --filename /tmp/K562_hg38_ins_score_window100KB.hitile \
+        --filetype hitile \
+        --datatype vector \
+        --coordSystem hg38
+
+## Bigwig files
+docker exec higlass-container python \
+        higlass-server/manage.py ingest_tileset \
+        --filetype bigwig \
+        --datatype vector \
+        --coordSystem hg19 --filename /tmp/cnvs_hw.bigWig 
+
+docker exec higlass-container python higlass-server/manage.py \
+ingest_tileset --filetype chromsizes-tsv --datatype chromsizes --coordSystem hg38 --filename /tmp/hg38_2
