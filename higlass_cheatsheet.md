@@ -76,7 +76,7 @@ docker exec higlass-container python \
         higlass-server/manage.py ingest_tileset \
         --filetype bigwig \
         --datatype vector \
-        --coordSystem hg19 --filename /tmp/cnvs_hw.bigWig 
+        --coordSystem negspy_hg38 --filename "/tmp/eigen_comp/$f" --project-name eig_comparison
 
 docker exec higlass-container python higlass-server/manage.py \
 ingest_tileset --filetype chromsizes-tsv --datatype chromsizes --coordSystem hg38 --filename /tmp/hg38_2
