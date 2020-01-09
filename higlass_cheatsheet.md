@@ -78,5 +78,19 @@ docker exec higlass-container python \
         --datatype vector \
         --coordSystem negspy_hg38 --filename "/tmp/eigen_comp/$f" --project-name eig_comparison
 
+### bash script
+make a bash script to add several bigwig files at once: run this inside the container.
+You can get a bash by: docker exec -it higlass /bin/bash
+
+#!/bin/bash
+
+for f in $(ls -1 *.bw)
+do
+	python /home/higlass/projects/higlass-server/manage.py ingest_tileset \
+        --filetype bigwig \
+        --datatype vector \
+        --coordSystem hg38 --filename "/tmp/eigen_comp/$f" --project-name eig_comparison
+done
+
 docker exec higlass-container python higlass-server/manage.py \
 ingest_tileset --filetype chromsizes-tsv --datatype chromsizes --coordSystem hg38 --filename /tmp/hg38_2
