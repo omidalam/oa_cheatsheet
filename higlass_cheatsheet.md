@@ -27,6 +27,13 @@ docker run --detach \
          gehlenborglab/higlass
 
 
+## Add chromsizes
+docker exec higlass-container python higlass-server/manage.py ingest_tileset\
+ --filetype chromsizes-tsv \
+ --datatype chromsizes \
+ --assembly hg38 \
+ --filename /tmp/hg38_4dn
+
 ## Adding bedfiles.
 1. You need to convert them using clodius. I would login to the higlass docker container and use the installed clodius on that. Had no success installing it from pip.
 
